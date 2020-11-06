@@ -22,5 +22,5 @@ Route::get('/categories', function () {
 });
 
 Route::get('/product', function () {
-    return view('product');
+   return view('product');
 });
