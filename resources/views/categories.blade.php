@@ -1,9 +1,9 @@
-@extends('master')
+@extends('layouts.master')
 
 @section('title', 'Все товары')
 
 @section('content')
-    <div class="starter-template">
+
         @foreach($categories as $category)
             <div class="panel">
                 <a href="{{ route('category', $category->code ) }}">
@@ -15,6 +15,6 @@
                 </p>
             </div>
         @endforeach
-    </div>
+
 
 @endsection
