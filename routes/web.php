@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +25,10 @@ Auth::routes([
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('get-logout');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::group([
+    'middleware' => 'auth'], function (){
+    Route::get('/orders', [OrderController::class, 'index'])->name('home');
+});
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 
