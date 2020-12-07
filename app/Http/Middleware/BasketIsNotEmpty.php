@@ -28,6 +28,7 @@ class BasketIsNotEmpty
             }
 
         }
+
         return $next($request);
     }
 }
