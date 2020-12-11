@@ -14,13 +14,8 @@ class BasketController extends Controller
         if (!is_null($orderId)){
             $order = Order::findOrFail($orderId);
 
-            return view('basket', compact('order'));
-        }else{
-            session()->flash('warning', 'Ваша корзина пуста!');
-            return redirect()->route('index');
         }
-
-
+        return view('basket', compact('order'));
     }
 
     public function basketConfirm(Request $request){
@@ -38,6 +33,8 @@ class BasketController extends Controller
         }else{
             session()->flash('warning', 'Ошибка!');
         }
+
+        Order::eraseOrderSum();
 
         return redirect()->route('index');
     }
@@ -77,6 +74,8 @@ class BasketController extends Controller
 
         $product = Product::find($productId);
 
+        Order::changeFullSum($product->price);
+
         session()->flash('success', 'Добавлен товар ' . $product->name);
 
         return redirect()->route('basket');
@@ -102,6 +101,9 @@ class BasketController extends Controller
         }
 
         $product = Product::find($productId);
+
+        Order::changeFullSum(-$product->price);
+
         session()->flash('warning', 'Удален товар ' . $product->name);
 
         return redirect()->route('basket');
