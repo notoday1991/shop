@@ -9,6 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id'];
+
     public function products()
     {
         return $this->belongsToMany(Product::class)->withPivot('count')->withTimestamps();
@@ -20,7 +22,7 @@ class Order extends Model
 
     public function calculateFullSum(){
         $sum = 0;
-        foreach ($this->products as $product){
+        foreach ($this->products()->withTrashed()->get() as $product){
             $sum += $product->getPriceForCount();
         }
         return $sum;
