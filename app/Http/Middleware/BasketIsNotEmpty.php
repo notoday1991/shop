@@ -25,7 +25,7 @@ class BasketIsNotEmpty
 
         }
 
-        session()->flash('warning', 'Ваша корзина пуста!');
+        session()->flash('warning', __('basket.cart_is_empty'));
         return redirect()->route('index');
     }
 }
