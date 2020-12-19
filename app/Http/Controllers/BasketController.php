@@ -25,8 +25,6 @@ class BasketController extends Controller
             session()->flash('warning', __('basket.you_cant_order_more'));
         }
 
-        Order::eraseOrderSum();
-
         return redirect()->route('index');
     }
     public function basketPlace(){
@@ -43,6 +41,7 @@ class BasketController extends Controller
 
     public function basketAdd(Product $product){
         $result = (new Basket(true))->addProduct($product);
+
         if ($result){
             session()->flash('success', __('basket.added'). $product->name);
         }else{

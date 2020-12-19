@@ -19,7 +19,7 @@
 
         <div class="caption">
             <h3>{{ $product->__('name')  }}</h3>
-            <p>{{ $product->price }} @lang('main.rub').</p>
+            <p>{{ $product->price }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}</p>
             <p>
             <form action="{{ route('basketAdd', $product) }}" method="POST">
                 @if($product->isAvailable())

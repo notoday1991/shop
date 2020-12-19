@@ -27,6 +27,7 @@ Auth::routes([
 ]);
 
 Route::get('locale/{locale}', [MainController::class, 'changeLocale'])->name('locale');
+Route::get('currency/{currencyCode}', [MainController::class, 'changeCurrency'])->name('currency');
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('get-logout');
 
