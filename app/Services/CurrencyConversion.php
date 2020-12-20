@@ -11,7 +11,7 @@ class CurrencyConversion
 {
     public const DEFAULT_CURRENCY_CODE = 'RUB';
 
-    protected static  $container;
+    protected static $container;
 
     public static function loadContainer()
     {
@@ -40,8 +40,8 @@ class CurrencyConversion
         self::loadContainer();
         $currencyCode = self::getCurrencyFromSession();
 
-        foreach (self::$container as $currency){
-            if ($currency->code === $currencyCode){
+        foreach (self::$container as $currency) {
+            if ($currency->code === $currencyCode) {
                 return $currency;
             }
         }
@@ -52,24 +52,25 @@ class CurrencyConversion
         self::loadContainer();
 
         $originCurrency = self::$container[$originCurrencyCode];
-        if ($originCurrency->code != self::DEFAULT_CURRENCY_CODE){
-            if ($originCurrency->rate != 0 || $originCurrency->updated_at->startOfDay() != Carbon::now()->startOfDay()){
+        if ($originCurrency->code != self::DEFAULT_CURRENCY_CODE) {
+            if ($originCurrency->rate != 0 || $originCurrency->updated_at->startOfDay() != Carbon::now()->startOfDay()) {
                 CurrencyRates::getRates();
                 self::loadContainer();
                 $originCurrency = self::$container[$originCurrencyCode];
             }
         }
 
-        if (is_null($targetCurrencyCode)){
+        if (is_null($targetCurrencyCode)) {
             $targetCurrencyCode = self::getCurrencyFromSession();
         }
 
         $targetCurrency = self::$container[$targetCurrencyCode];
-
-        if ($targetCurrency->rate == 0 || $targetCurrency->updated_at->startOfDay() != Carbon::now()->startOfDay()){
-            CurrencyRates::getRates();
-            self::loadContainer();
-            $targetCurrency = self::$container[$targetCurrencyCode];
+        if ($originCurrency->code != self::DEFAULT_CURRENCY_CODE) {
+            if ($targetCurrency->rate == 0 || $targetCurrency->updated_at->startOfDay() != Carbon::now()->startOfDay()) {
+                CurrencyRates::getRates();
+                self::loadContainer();
+                $targetCurrency = self::$container[$targetCurrencyCode];
+            }
         }
 
         return $sum / $originCurrency->rate * $targetCurrency->rate;
@@ -90,8 +91,8 @@ class CurrencyConversion
     {
         self::loadContainer();
 
-        foreach (self::$container as $code => $currency){
-            if ($currency->isMain()){
+        foreach (self::$container as $code => $currency) {
+            if ($currency->isMain()) {
                 return $currency;
             }
         }
