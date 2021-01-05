@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\Admin\PropertyOptionController;
+use App\Http\Controllers\Admin\SkuController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
@@ -51,6 +54,9 @@ Route::middleware(['set_locale'])->group(function (){
 
             Route::resource('categories', CategoryController::class);
             Route::resource('products', ProductController::class);
+            Route::resource('products/{product}/skus', SkuController::class);
+            Route::resource('properties', PropertyController::class);
+            Route::resource('properties/{property}/property-options', PropertyOptionController::class);
         });
     });
 
