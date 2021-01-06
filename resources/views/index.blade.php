@@ -42,9 +42,9 @@
     </form>
 
     <div class="row">
-        @foreach($products as $product)
-            @include('layouts.card', compact('product'))
+        @foreach($skus as $sku)
+            @include('layouts.card', compact('sku'))
         @endforeach
     </div>
-    {{ $products->links('pagination::bootstrap-4') }}
+    {{ $skus->links('pagination::bootstrap-4') }}
 @endsection
