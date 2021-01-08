@@ -47,15 +47,41 @@
             @endforeach
             <tr>
                 <td colspan="3">@lang('basket.full_cost'):</td>
-                <td>{{ $order->getFullSum() }} {{ $currencySymbol }}.</td>
+                @if($order->hasCoupon())
+                    <td><strike>{{ $order->getFullSum(false) }}</strike>
+                        <b>{{ $order->getFullSum() }}</b> {{ $currencySymbol }}.
+                    </td>
+                @else
+                    <td>{{ $order->getFullSum() }} {{ $currencySymbol }}.</td>
+                @endif
             </tr>
             </tbody>
         </table>
+        @if(!$order->hasCoupon())
+            <div class="row">
+                <div class="form-inline pull-right">
+                    <form method="POST" action="{{ route('setCoupon') }}">
+                        @csrf
+                        <label for="coupon">@lang('basket.coupon.add_coupon'):</label>
+                        <input class="form-control" type="text" name="coupon">
+                        <button type="submit" class="btn btn-success">@lang('basket.coupon.apply')</button>
+                    </form>
+                </div>
+            </div>
+            @error('coupon')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+        @else
+            <div>@lang('basket.coupon.your_coupon') {{ $order->coupon->code }}</div>
+        @endif
         <br>
-        <div class="btn-group pull-right" role="group">
-            <a type="button" class="btn btn-success" href="{{ route('basketPlace') }}">@lang('basket.place_order')</a>
+        <div class="row">
+            <br>
+            <div class="btn-group pull-right" role="group">
+                <a type="button" class="btn btn-success"
+                   href="{{ route('basketPlace') }}">@lang('basket.place_order')</a>
+            </div>
         </div>
-    </div>
 
 
 @endsection
